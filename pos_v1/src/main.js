@@ -18,7 +18,7 @@ function printInventory(inputs) {
 
     for ( i=0; i<barcode_a.length; i++) {
         for (var j= 0; j<goods.length; j++) {
-            if (barcode[i] === goods[j].barcode) {
+            if (barcode_a[i] === goods[j].barcode) {
                 var temp = {
                     barcode : goods[j].barcode,
                     name : goods[j].name,
@@ -52,46 +52,72 @@ function printInventory(inputs) {
     }
 
     function subtotal(barcode){
+            var sale_number = [];
+            var sub, chu;
+            for ( i = 0; i < inputs_a.length; i++) {
+                if (sale_barcode[0].barcodes[i] === barcode ) {
+                    chu =  inputs_a[m].count-parseInt( inputs_a[m].count/3);
+                    sub = inputs_a[m].price*chu;
+                    break;
+                }else {
+                    sub = inputs_a[m].count*inputs_a[m].price;
+                }
+            }
+            return sub;
+        }
+
+    function subtotal_save(){
         var sale_number = [];
-        var sub;
+        var sub=0, chu, chu_all='节省：';
         for ( i = 0; i < inputs_a.length; i++) {
-            if (barcode === sale_barcode[i]) {
-                sub = (inputs_a[m].count*inputs_a[m].price).toFixed(2);
-            }else {
-                sub = (inputs_a[m].count*inputs_a[m].price).toFixed(2);
+            for (var m=0;m<inputs_a.length;m++  ){
+                if (sale_barcode[0].barcodes[i] === inputs_a[m].barcode ) {
+                    chu =  parseInt( inputs_a[m].count/3);
+                    sub = sub+(inputs_a[m].price*chu);
+                    break;
+                }
             }
         }
-        return sub;
+        chu_all = chu_all+sub.toFixed(2);
+        return chu_all;
     }
 
 
 
 
+        for (var m=0; m<inputs_a.length; m++) {
+            stamp = stamp + (
+                '名称：' + inputs_a[m].name +
+                '，数量：' + inputs_a[m].count + inputs_a[m].unit +
+                '，单价：' + inputs_a[m].price.toFixed(2) + '(元)' +
+                '，小计：' + subtotal(inputs_a[m].barcode).toFixed(2) +
+                '(元)\n'
+                );
+            footing = footing+subtotal(inputs_a[m].barcode);
+        }
 
-    for (var m=0; m<inputs_a.length; m++) {
-        stamp = stamp + (
-            '名称：' + inputs_a[m].name +
-            '，数量：' + inputs_a[m].count + inputs_a[m].unit +
-            '，单价：' + inputs_a[m].price.toFixed(2) + '(元)' +
-            '，小计：' + subtotal(inputs_a[m].barcode) + //+ (inputs_a[m].count*inputs_a[m].price).toFixed(2) +
-            '(元)\n'
+        function largess(){
+            var name, count, largess_all='挥泪赠送商品：\n';
+            for ( i = 0; i < inputs_a.length; i++) {
+                for (var m=0;m<inputs_a.length;m++  ){
+                    if (sale_barcode[0].barcodes[i] === inputs_a[m].barcode ) {
+                        name = inputs_a[m].name;
+                        count = parseInt( inputs_a[m].count/3)+inputs_a[m].unit;
+                        largess_all=largess_all +'名称：' + name +'，数量：' + count + '\n';
+                    }
+                }
+            }
+        largess_all=largess_all+'----------------------\n';
+        return largess_all;
+}
+
+        console.log(
+            stamp +
+            '----------------------\n'+
+            largess()+
+            '总计：'+ footing.toFixed(2) +
+            '(元)\n' +
+            subtotal_save() + '(元)\n' +
+            '**********************'
             );
-        footing = footing+inputs_a[m].count*inputs_a[m].price;
-    }
-
-
-    var largess = [];
-    lergess =(
-        '挥泪赠送商品：\n' +
-        '名称：' + '' +
-        '，数量：' + '' + '' +
-        '----------------------\n'
-        );
-
-    console.log(
-        stamp +
-        '----------------------\n'+
-        '总计：'+footing.toFixed(2) +
-        '(元)\n' +'**********************'
-        );
 }
