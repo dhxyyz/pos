@@ -9,6 +9,7 @@ function loadAllItems() {
         new Item('ITEM000005', '方便面', '袋', 4.50)
     ];
 }
+
 var Promotion = require('../src/model/promotion');
 function loadPromotions() {
     return [
@@ -20,5 +21,12 @@ function loadPromotions() {
     ];
 }
 
+var Scanner = require('../src/model/Scanner');
+function loadScanner() {
+    var a = new Scanner();
+    a.group_by_barcode();
+}
+
 exports.loadAllItems = loadAllItems;
 exports.loadPromotions = loadPromotions;
+exports.loadScanner = loadScanner;

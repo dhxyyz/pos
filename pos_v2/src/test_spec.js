@@ -22,8 +22,6 @@ describe('pos', function () {
         dateDigitToString = function (num) {
             return num < 10 ? '0' + num : num;
         };
-
-
         var result = printInventory(inputs);
 
         var currentDate = new Date(),
